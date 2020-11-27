@@ -68,8 +68,8 @@ void validateAccount(){
     }while(password.compare(checkPassword) !=0 );
     createAccount(userName,password);   //create account with given credentials
     cout << "Account creation successful!" << endl;
-    int option = 1;         //switch for homepage logout
-    while(option != 0){     //stay logged in until input = 0
+    string option = "1";         //switch for homepage logout
+    while(option != "0"){     //stay logged in until input = 0
         cout << "You are logged in. " << endl;
         cout << userName << " Home Page." << endl;
         cout << "Press 0 to log out." << endl;
@@ -140,10 +140,10 @@ void accessAccount(){
 
     while(accountExists(userName) == false){
         cout << "Account with username " << userName << " doesn't exist." << endl << endl;
-        int option;
+        string option;
         cout << "To go back to main menu press 1 or 2 to try new Username: ";
         cin >> option;
-        if (option == 1)
+        if (option == "1")
             return;
         cout << "Username: ";
         cin >> userName;
@@ -162,8 +162,8 @@ void accessAccount(){
                     cin >> password; 
                 }
                 if(pPassword->GetText() == password){
-                    int option = 1;
-                    while(option != 0){
+                    string option = "1";
+                    while(option != "0"){
                         cout << "You are logged in. " << endl;
                         cout << userName << " Home Page." << endl;
                         cout << "Press 0 to log out." << endl;
@@ -188,10 +188,3 @@ void createAuthentication(){
     pRoot->InsertEndChild(nHead);
     XMLError eResult = xmlDoc.SaveFile("Accounts.xml");
 }
-
-
-
-
-
-
-
