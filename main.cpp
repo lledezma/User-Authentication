@@ -1,9 +1,9 @@
 
 #include "include/tinyxml2.h"
 #include "include/tinyxml2.cpp"
+#include <iostream>
 using namespace tinyxml2;
 using namespace std;
-#include <iostream>
 
 void validateAccount(); //verify credentials
 void createAccount(string userName, string password); //create account
