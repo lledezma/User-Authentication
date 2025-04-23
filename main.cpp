@@ -11,6 +11,8 @@ bool accountExists(string userName);   //check if account exists
 void accessAccount();   //login to account
 void createAuthentication();    //create xml that stores credentials
 
+XMLDocument doc;
+
 int main()
 {
     int option;
@@ -48,7 +50,7 @@ void validateAccount(){
     string userName;    //holds username
     string password = "";   //holds password
     string checkPassword = "";  //holds password for verification
-    while(exists){  
+    while(exists){
         cout << "Type account Username: ";
         cin >> userName;    //take username input
         if(accountExists(userName)) //check if username already taken
@@ -56,7 +58,7 @@ void validateAccount(){
         else
             exists = false;
     }
-    do{         //ask for password until it is verified 
+    do{         //ask for password until it is verified
         cout << "Type New password: ";
         cin >> password;    //take password input
         cout << endl;
@@ -77,15 +79,14 @@ void validateAccount(){
     }
     cout << "Logged out." << endl;
     //clear memory
-    password.clear(); 
+    password.clear();
     checkPassword.clear();
     userName.clear();
 }
 
 void createAccount(string userName, string password){
-    XMLDocument doc;    
-    doc.LoadFile( "Accounts.xml" );     
-    XMLElement *pRootElement = doc.RootElement();  
+    doc.LoadFile( "Accounts.xml" );
+    XMLElement *pRootElement = doc.RootElement();
     XMLElement *pAccounts = pRootElement->FirstChildElement("Accounts");
     XMLElement* pAccount = pAccounts->FirstChildElement("Account");
 
@@ -102,7 +103,6 @@ void createAccount(string userName, string password){
 }
 
 bool accountExists(string userName){ //check if account exists
-    XMLDocument doc;
     bool fileExists = doc.LoadFile( "Accounts.xml" );
     if(fileExists == 1){
         createAuthentication(); //create file to hold credentials
@@ -116,7 +116,7 @@ bool accountExists(string userName){ //check if account exists
         if(pUsername->GetText() == userName){
             return true;
         }
-        pAccount = pAccount->NextSiblingElement("Account"); 
+        pAccount = pAccount->NextSiblingElement("Account");
     }
     return false;
 }
@@ -128,7 +128,6 @@ void accessAccount(){
     cout << "Username: ";
     cin >> userName;
 
-    XMLDocument doc;
     bool fileExists = doc.LoadFile( "Accounts.xml" );
     if(fileExists == 1){
         createAuthentication();
@@ -159,7 +158,7 @@ void accessAccount(){
                 if(pPassword->GetText() != password){
                     cout << "Incorrect password! try again." << endl;
                     cout << "Password: " ;
-                    cin >> password; 
+                    cin >> password;
                 }
                 if(pPassword->GetText() == password){
                     string option = "1";
@@ -176,15 +175,14 @@ void accessAccount(){
             cout << "Too many password tries. Contact your administrator." << endl;
             return;
         }
-        pAccount = pAccount->NextSiblingElement("Account"); 
+        pAccount = pAccount->NextSiblingElement("Account");
     }
 }
 
 void createAuthentication(){
-    XMLDocument xmlDoc;
-    XMLNode* pRoot = xmlDoc.NewElement("Root");
-    xmlDoc.InsertFirstChild(pRoot);
-    XMLNode* nHead = xmlDoc.NewElement("Accounts");
+    XMLNode* pRoot = doc.NewElement("Root");
+    doc.InsertFirstChild(pRoot);
+    XMLNode* nHead = doc.NewElement("Accounts");
     pRoot->InsertEndChild(nHead);
-    XMLError eResult = xmlDoc.SaveFile("Accounts.xml");
+    XMLError eResult = doc.SaveFile("Accounts.xml");
 }
